@@ -1,3 +1,4 @@
+import asyncio
 import streamlit as st
 import os
 from langchain_core.prompts import ChatPromptTemplate
@@ -7,12 +8,13 @@ import time
 from transformers import AutoTokenizer
 
 from db_connection import  getSchema
+from llm_agent import llm_agentic
 
 os.environ["GOOGLE_API_KEY"] = st.secrets["gemini_key"]
 
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.0-flash-001",
-    temperature=0.9,
+    temperature=0.7,
     max_tokens=1500,
     timeout=None,
     max_retries=2,
@@ -57,7 +59,7 @@ def getQueryFromLLM(question, schema):
 
 full_response = ""
 
-def getResponseFromQuery(question, query, result, schema, chat_history_str):
+async def getResponseFromQuery(question, query, result, schema, chat_history_str):
     template2 = """
     You are an expert MySQL assistant helping users query information from a database. Below is the schema of the MySQL database. Carefully review the table and column names before answering. Additionally, always **refer to the full conversation history** to maintain context and resolve references accordingly (e.g., "it", "they", "that table", etc.).
 
@@ -169,48 +171,50 @@ def chat_component(db):
     for chat in st.session_state.chats:
         st.chat_message(chat["role"]).write(chat["content"])
 
-    question = st.chat_input('Chat with your MySQL database')
-    if question:
+    if question := st.chat_input('Chat with your MySQL database'):
         st.session_state.chats.append({
             "role": "user",
             "content": question
         })
         with st.chat_message("user"):
             st.write(question)
-    if not db:
-        st.error('Please connect to the database first.')
-    elif db and question:
-        schema = getSchema(db)    
-        query = getQueryFromLLM(question, schema)
-        print(query)  
-        try:
-            result = db.run(query)
-        except Exception as e:
-            result = e
-        print(result)
-        chat_history = []
-        for dict_message in st.session_state.chats:
-            if dict_message["role"] == "user":
-                chat_history.append("<|im_start|>user\n" + dict_message["content"] + "<|im_end|>")
-            else:
-                chat_history.append("<|im_start|>assistant\n" + dict_message["content"] + "<|im_end|>")
-        
-        chat_history.append("<|im_start|>assistant")
-        chat_history.append("")
-        chat_history_str = "\n".join(chat_history)
-        # print(chat_history_str)
+        if not db:
+            st.error('Please connect to the database first.')
+        elif db and question:
+            # schema = getSchema(db)    
+            # query = getQueryFromLLM(question, schema)
+            # print(query)  
+            # try:
+            #     result = db.run(query)
+            # except Exception as e:
+            #     result = e
+            # print(result)
+            # chat_history = []
+            # for dict_message in st.session_state.chats:
+            #     if dict_message["role"] == "user":
+            #         chat_history.append("<|im_start|>user\n" + dict_message["content"] + "<|im_end|>")
+            #     else:
+            #         chat_history.append("<|im_start|>assistant\n" + dict_message["content"] + "<|im_end|>")
+            
+            # chat_history.append("<|im_start|>assistant")
+            # chat_history.append("")
+            # chat_history_str = "\n".join(chat_history)
+            # # print(chat_history_str)
 
-        if get_num_tokens(chat_history_str) >= 1000:
-            st.error("Conversation length too long. Please keep it under 1000 tokens.")
-            st.button('Clear chat history', on_click=clear_chat_history(), key="clear_chat_history")
-            st.stop()
+            # if get_num_tokens(chat_history_str) >= 1000:
+            #     st.error("Conversation length too long. Please keep it under 1000 tokens.")
+            #     st.button('Clear chat history', on_click=clear_chat_history(), key="clear_chat_history")
+            #     st.stop()
 
-        with st.chat_message("assistant"):
-            response_stream = getResponseFromQuery(question, query, result, schema, chat_history_str)
-            full_res = st.write_stream(response_stream)
 
-        # with st.spinner("Waiting..."):
-        if full_response:        
+
+            with st.chat_message("assistant"):
+                # response_stream = getResponseFromQuery(question, query, result, schema, chat_history_str)
+                response_stream = llm_agentic(llm, question)
+                full_res = st.write_stream(response_stream)
+
+            # with st.spinner("Waiting..."):
+            # if full_response:        
             st.session_state.chats.append({
                 "role": "assistant",
                 "content": full_res
