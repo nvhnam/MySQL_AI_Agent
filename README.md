@@ -36,8 +36,10 @@ A lightweight AI-powered agent that understands and interacts with MySQL databas
 <pre> mkdir .streamlit </pre>
 
 - Inside the .streamlit folder, create a file named secrets.toml and add your credentials:
-<pre> gemini_key = "your_gemini_api_key" </pre> 
-<pre> default_db_uri = "mysql+pymysql://username:password@host:port/database_name" </pre>
+<pre>
+gemini_key = "your_gemini_api_key"
+default_db_uri = "mysql+pymysql://username:password@host:port/database_name"
+</pre>
   > 💡 Make sure to replace the values with your actual Gemini API key and MySQL connection URI.
 
 4. Run the app
