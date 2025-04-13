@@ -26,8 +26,8 @@ A lightweight AI-powered agent that understands and interacts with MySQL databas
 ## 📦 Setup Instructions
 1. Clone the repository
 <pre>
-git clone https://github.com/nvhnam/mysql-ai-agent.git
-cd mysql-ai-agent
+git clone https://github.com/nvhnam/MySQL_AI_Agent.git
+cd to the project
 </pre>
   
 2. Install dependencies
