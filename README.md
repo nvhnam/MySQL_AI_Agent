@@ -6,20 +6,20 @@ A lightweight AI-powered agent that understands and interacts with MySQL databas
 
 ## 🚀 Features
 
-🔍 Natural Language Interface: Ask questions in plain English and get meaningful answers back.
-📊 Database Insights: Retrieve data summaries, visualize results (line, bar, pie charts), and explore tables effortlessly.
-🔄 Multi-query Support: Handles follow-up questions and context-aware dialogue.
-🧠 LLM-Powered Responses: Uses Google Gemini + LangChain to return human-friendly explanations instead of raw query outputs.
-⚙️ Customizable Schema: Connect to your own MySQL database with ease.
-💬 Conversational UI: Clean chat interface for seamless interaction.
+- 🔍 Natural Language Interface: Ask questions in plain English and get meaningful answers back.
+- 📊 Database Insights: Retrieve data summaries, visualize results (line, bar, pie charts), and explore tables effortlessly.
+- 🔄 Multi-query Support: Handles follow-up questions and context-aware dialogue.
+- 🧠 LLM-Powered Responses: Uses Google Gemini + LangChain to return human-friendly explanations instead of raw query outputs.
+- ⚙️ Customizable Schema: Connect to your own MySQL database with ease.
+- 💬 Conversational UI: Clean chat interface for seamless interaction.
 
 ---
 
 ** 🛠️ Tech Stack
-🧪 Programming Language: Python
-🧠 AI Framework: LangChain + Gemini
-📊 Database: MySQL
-🌐 Frontend/UI: Streamlit
+- 🧪 Programming Language: Python
+- 🧠 AI Framework: LangChain + Gemini
+- 📊 Database: MySQL
+- 🌐 Frontend/UI: Streamlit
 
 ---
 
@@ -31,11 +31,15 @@ A lightweight AI-powered agent that understands and interacts with MySQL databas
 2. Install dependencies
 - pip install -r requirements.txt
 
-3. Configure environment
-- Create the ".streamlit" folder in the project
-- Create the "secrets.toml" file and update it with:
-gemini_key=your_key
-default_db_uri=your_uri
+3. Configure Environment
+- Create a folder named .streamlit in the project root (if it doesn't already exist):
+mkdir .streamlit
+
+- Inside the .streamlit folder, create a file named secrets.toml and add your credentials:
+gemini_key = "your_gemini_api_key"
+default_db_uri = "mysql+pymysql://username:password@host:port/database_name"
+
+- 💡 Make sure to replace the values with your actual Gemini API key and MySQL connection URI.
 
 4. Run the app
 - streamlit run app.py
