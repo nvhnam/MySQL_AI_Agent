@@ -50,7 +50,7 @@ with st.sidebar:
                 else:
                     notify_message("🚫 Could not connect to the database.", isValid=False)
     st.divider()
-    st.markdown('''Made by [@nvhnam](https://github.com/nvhnam)''')
+    st.markdown('''Made by [@nvhnam](https://nguyenviethoangnam.vercel.app)''')
 
     
 with st.container():
