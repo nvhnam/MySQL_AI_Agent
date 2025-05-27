@@ -52,6 +52,10 @@ default_db_uri = "mysql+pymysql://username:password@host:port/database_name"
 ## 🤝 Contributing
 I'm happy to hear your thoughts or ideas! Feel free to contact me with your ideas or collaboration.
 
+Reach me at:
+
+- 📧 Email: nvhnam01@gmail.com
+- 👨‍💻 Portfolio: https://nguyenviethoangnam.vercel.app/
 ---
 
 ## ⭐ Support the Project
